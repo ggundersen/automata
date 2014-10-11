@@ -1,0 +1,4 @@
+automata
+========
+
+Automata programming assignments.
