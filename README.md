@@ -1,4 +1,0 @@
-automata
-========
-
-Automata programming assignments.
