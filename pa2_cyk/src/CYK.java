@@ -38,12 +38,9 @@ public class CYK{
   void calcCYK(int [] w) {
     int L = w.length;
     int PL = production.length;
-    X = new boolean [L][L][VarNum];
-    
+    X = new boolean [L][L][VarNum];  
     //Fill in your program here
-    //---------------------------------------------------------------------------------------------
     
-    // Fill in the bottom row
     for (int i = 0; i < L; i++) { // For every character in string w
       int currChar = w[i];
       for (int j = 0; j < PL; j++) { // For every production
@@ -55,32 +52,24 @@ public class CYK{
     }
     
     for (int r = 1; r < L; r++) { // *number of rows* left after filling in the bottom row
-      //System.out.println("Row:" + r);
       for (int j = 0; j < L-r; j++) { // *length of the row*; L-r gets smaller as r increases
-        //System.out.println("\tX_ij: " + (j) + "," + (r+j));
         for (int k = 1; k < r+1; k++) { // *partitions*; 0 partitions when r=1, increases as the number of the row does (more partitions for shorter rows)
-          //System.out.println("\t\tk (partition): " + k);
-          //System.out.println("\t\t\t" + j + "," + (j+k-1));
-          //System.out.println("\t\t\t" + (j+k) + "," + (r+j));
-          //System.out.println("\t\tNonterminal: " + production[p][0]);
           boolean[] prods1 = X[j][j+k-1];
           boolean[] prods2 = X[j+k][r+j];
-          //System.out.println("\t\t\t" + Arrays.toString(prods1));
-          //System.out.println("\t\t\t" + Arrays.toString(prods2));
           for (int p = 0; p < PL; p++) {
             if (production[p][2] != -1) { // Only look at nonterminal productions
               int rhsSym1 = production[p][1];
               int rhsSym2 = production[p][2];
-              //System.out.println("\t\t\t\trhs1:" + rhsSym1);
-              //System.out.println("\t\t\t\trhs2:" + rhsSym2);
               if (prods1[rhsSym1] && prods2[rhsSym2]) {
-                X[j][r][production[p][0]] = true;
+                X[j][r+j][production[p][0]] = true; // X_ij = (j),(r+j)
               }
             }
           }
         }
       }
     }
+    
+    System.out.println(Arrays.toString(X));
   }
  
  public String Start(String filename)
@@ -103,9 +92,6 @@ public class CYK{
    production[4][0]=2; production[4][1]=1; production[4][2]=-1; //B->b
    production[5][0]=3; production[5][1]=0; production[5][2]=-1; //C->a
    production[6][0]=3; production[6][1]=1; production[6][2]=-1; //C->b
-   
-   int[] fuck = {0,1,0,1};
-   //calcCYK(fuck);
    
    result="";
    //Read File Line By Line

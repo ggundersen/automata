@@ -63,7 +63,7 @@ public class epsnfa{
   int[] union(int s1, int t1, int s2, int t2) {
     int [] st = new int[2];
     //Please fill in the program here
-    //---------------------------------------------------------------------------------------------   
+    //---------------------------------------------------------------------------------------------
     int ns = incCapacity();
     addEdge(ns, epssymbol, s1);
     addEdge(ns, epssymbol, s2);

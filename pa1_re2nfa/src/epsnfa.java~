@@ -63,14 +63,17 @@ public class epsnfa{
   int[] union(int s1, int t1, int s2, int t2) {
     int [] st = new int[2];
     //Please fill in the program here
-    //---------------------------------------------------------------------------------------------
-    st[0] = incCapacity();
-    addEdge(st[0], epssymbol, s1);
-    addEdge(st[0], epssymbol, s2);
+    //---------------------------------------------------------------------------------------------   
+    int ns = incCapacity();
+    addEdge(ns, epssymbol, s1);
+    addEdge(ns, epssymbol, s2);
     
-    st[1] = incCapacity();
-    addEdge(s2, epssymbol, st[1]);
-    addEdge(s2, epssymbol, st[1]);
+    int nt = incCapacity();
+    addEdge(t1, epssymbol, nt);
+    addEdge(t2, epssymbol, nt);
+    
+    st[0] = ns;
+    st[1] = nt;
     return st;
   }
   
@@ -80,9 +83,9 @@ public class epsnfa{
     int [] st = new int[2];
     //Please fill in the program here
     //---------------------------------------------------------------------------------------------
-    st[0] = t1;
-    st[1] = s2;
-    addEdge(st[0], epssymbol, st[1]);
+    addEdge(t1, epssymbol, s2);
+    st[0] = s1;
+    st[1] = t2;
     return st;
   }
   
