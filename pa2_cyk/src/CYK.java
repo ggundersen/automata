@@ -5,6 +5,7 @@
  */
 
 import java.io.*;
+import java.util.Arrays;
 
 public class CYK{
  static int maxProductionNum = 100; //max number of productions
@@ -54,25 +55,29 @@ public class CYK{
     }
     
     for (int r = 1; r < L; r++) { // *number of rows* left after filling in the bottom row
-      System.out.println("Row:" + r);
+      //System.out.println("Row:" + r);
       for (int j = 0; j < L-r; j++) { // *length of the row*; L-r gets smaller as r increases
-        System.out.println("\tX_ij: " + (j) + "," + (r+j));
+        //System.out.println("\tX_ij: " + (j) + "," + (r+j));
         for (int k = 1; k < r+1; k++) { // *partitions*; 0 partitions when r=1, increases as the number of the row does (more partitions for shorter rows)
-          System.out.println("\t\tk (partition): " + k);
-          System.out.println("\t\t\t" + j + "," + (j+k-1));
-          System.out.println("\t\t\t" + (j+k) + "," + (r+j));
-          /*for (int p = 0; p < PL; p++) {
-            //System.out.println("\t\tNonterminal: " + production[p][0]);
-            /*if (production[p][2] != -1) {
-              int currSym = production[p][0];
+          //System.out.println("\t\tk (partition): " + k);
+          //System.out.println("\t\t\t" + j + "," + (j+k-1));
+          //System.out.println("\t\t\t" + (j+k) + "," + (r+j));
+          //System.out.println("\t\tNonterminal: " + production[p][0]);
+          boolean[] prods1 = X[j][j+k-1];
+          boolean[] prods2 = X[j+k][r+j];
+          //System.out.println("\t\t\t" + Arrays.toString(prods1));
+          //System.out.println("\t\t\t" + Arrays.toString(prods2));
+          for (int p = 0; p < PL; p++) {
+            if (production[p][2] != -1) { // Only look at nonterminal productions
               int rhsSym1 = production[p][1];
               int rhsSym2 = production[p][2];
-              
-              /*if (X[j][k][rhsSym1] && X[j+k][r-k][rhsSym2]) {
-                X[j][r][currSym] = true;
+              //System.out.println("\t\t\t\trhs1:" + rhsSym1);
+              //System.out.println("\t\t\t\trhs2:" + rhsSym2);
+              if (prods1[rhsSym1] && prods2[rhsSym2]) {
+                X[j][r][production[p][0]] = true;
               }
             }
-          }*/
+          }
         }
       }
     }
@@ -100,11 +105,11 @@ public class CYK{
    production[6][0]=3; production[6][1]=1; production[6][2]=-1; //C->b
    
    int[] fuck = {0,1,0,1};
-   calcCYK(fuck);
+   //calcCYK(fuck);
    
    result="";
    //Read File Line By Line
-   /*while ((str = br.readLine()) != null) {
+   while ((str = br.readLine()) != null) {
     
     System.out.println ("Processing "+str+"...");
     int len=str.length();
@@ -128,7 +133,7 @@ public class CYK{
      }
      result=result+"\n";
     }
-   }*/
+   }
    //Close the input stream
    in.close();
   }catch (Exception e){//Catch exception if any
@@ -139,6 +144,6 @@ public class CYK{
  }
  
  public static void main(String args[]) {
-  new CYK().Start("testCYK2.in");
+  new CYK().Start("testCYK.in");
  }
 }
