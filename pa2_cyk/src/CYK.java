@@ -38,27 +38,44 @@ public class CYK{
     int L = w.length;
     int PL = production.length;
     X = new boolean [L][L][VarNum];
+    
     //Fill in your program here
     //---------------------------------------------------------------------------------------------
-    for (int i = 0; i < L; i++) { // for every character in string w
+    
+    // Fill in the bottom row
+    for (int i = 0; i < L; i++) { // For every character in string w
       int currChar = w[i];
-      for (int j = 0; j < PL; j++) { // for every production
-        int currProd = production[j][0];
-        if (existProd(currProd, currChar, -1)) { // check for terminal productions
-          X[i][i][currProd] = true;
+      for (int j = 0; j < PL; j++) { // For every production
+        int currSym = production[j][0];
+        if (existProd(currSym, currChar, -1)) { // Check for terminal productions
+          X[i][i][currSym] = true;
         }
       }
     }
     
-    for (int i = 1; i < L; i++) {
-      
-      
+    for (int r = 1; r < L; r++) { // *number of rows* left after filling in the bottom row
+      System.out.println("Row:" + r);
+      for (int j = 0; j < L-r; j++) { // *length of the row*; L-r gets smaller as r increases
+        System.out.println("\tX_ij: " + (j) + "," + (r+j));
+        for (int k = 1; k < r+1; k++) { // *partitions*; 0 partitions when r=1, increases as the number of the row does (more partitions for shorter rows)
+          System.out.println("\t\tk (partition): " + k);
+          System.out.println("\t\t\t" + j + "," + (j+k-1));
+          System.out.println("\t\t\t" + (j+k) + "," + (r+j));
+          /*for (int p = 0; p < PL; p++) {
+            //System.out.println("\t\tNonterminal: " + production[p][0]);
+            /*if (production[p][2] != -1) {
+              int currSym = production[p][0];
+              int rhsSym1 = production[p][1];
+              int rhsSym2 = production[p][2];
+              
+              /*if (X[j][k][rhsSym1] && X[j+k][r-k][rhsSym2]) {
+                X[j][r][currSym] = true;
+              }
+            }
+          }*/
+        }
+      }
     }
-//    for each i = 2 to n -- Length of span
-//      for each j = 1 to n-i+1 -- Start of span
-//        for each k = 1 to i-1 -- Partition of span
-//          for each production RA -> RB RC
-//            if P[j,k,B] and P[j+k,i-k,C] then set P[j,i,A] = true
   }
  
  public String Start(String filename)
@@ -82,9 +99,12 @@ public class CYK{
    production[5][0]=3; production[5][1]=0; production[5][2]=-1; //C->a
    production[6][0]=3; production[6][1]=1; production[6][2]=-1; //C->b
    
+   int[] fuck = {0,1,0,1};
+   calcCYK(fuck);
+   
    result="";
    //Read File Line By Line
-   while ((str = br.readLine()) != null) {
+   /*while ((str = br.readLine()) != null) {
     
     System.out.println ("Processing "+str+"...");
     int len=str.length();
@@ -108,7 +128,7 @@ public class CYK{
      }
      result=result+"\n";
     }
-   }
+   }*/
    //Close the input stream
    in.close();
   }catch (Exception e){//Catch exception if any
@@ -119,6 +139,6 @@ public class CYK{
  }
  
  public static void main(String args[]) {
-  new CYK().Start("testCYK.in");
+  new CYK().Start("testCYK2.in");
  }
 }
